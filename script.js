@@ -23,7 +23,7 @@ let updateTimer;
 
 const songData = [
     {
-        img : 'images/stay.png',
+        img : 'images/stay.jpg',
         name : 'Stay',
         artist : 'The Kid LAROI, Justin Bieber',
         music : 'music/stay.mp3'
@@ -35,7 +35,7 @@ const songData = [
         music : 'music/fallingdown.mp3'
     },
     {
-        img : 'images/faded.png',
+        img : 'images/faded.jpg',
         name : 'Faded',
         artist : 'Alan Walker',
         music : 'music/Faded.mp3'
@@ -47,3 +47,105 @@ const songData = [
         music : 'music/Rather Be.mp3'
     }
 ];
+
+
+loadTrack(index);
+
+function loadTrack(index){
+    clearInterval(updateTimer);
+    reset();
+
+    currTrack.src = songData[index].music;
+    currTrack.load();
+
+    trackArt.style.backgroundImage = "url(" + songData[index].img + ")";
+    trackName.textContent = songData[index].name;
+    trackArtist.textContent = songData[index].artist;
+    nowPlaying.textContent = "Playing music " + (index + 1) + " of " + songData.length;
+
+    updateTimer = setInterval(setUpdate, 1000);
+
+    currTrack.addEventListener('ended', nextTrack);
+}
+function reset(){
+    currTime.textContent = "00:00";
+    totalDuration.textContent = "00:00";
+    seekSlider.value = 0;
+}
+function randomTrack(){
+    isRandom ? pauseRandom() : playRandom();
+}
+function playRandom(){
+    isRandom = true;
+    randomIcon.classList.add('randomActive');
+}
+function pauseRandom(){
+    isRandom = false;
+    randomIcon.classList.remove('randomActive');
+}
+function repeatTrack(){
+    let current_index = index;
+    loadTrack(current_index);
+    playTrack();
+}
+function playpauseTrack(){
+    isPlaying ? pauseTrack() : playTrack();
+}
+function playTrack(){
+    currTrack.play();
+    isPlaying = true;
+    playpauseBtn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+}
+function pauseTrack(){
+    currTrack.pause();
+    isPlaying = false;
+    playpauseBtn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+}
+function nextTrack(){
+    if(index < songData.length - 1 && isRandom === false){
+        index += 1;
+    }else if(index < songData.length - 1 && isRandom === true){
+        let random_index = Number.parseInt(Math.random() * songData.length);
+        index = random_index;
+    }else{
+        index = 0;
+    }
+    loadTrack(index);
+    playTrack();
+}
+function prevTrack(){
+    if(index > 0){
+        index -= 1;
+    }else{
+        index = songData.length -1;
+    }
+    loadTrack(index);
+    playTrack();
+}
+function seekTo(){
+    let seekto = currTrack.duration * (seekSlider.value / 100);
+    currTrack.currentTime = seekto;
+}
+function setVolume(){
+    currTrack.volume = volumeSlider.value / 100;
+}
+function setUpdate(){
+    let seekPosition = 0;
+    if(!isNaN(currTrack.duration)){
+        seekPosition = currTrack.currentTime * (100 / currTrack.duration);
+        seekSlider.value = seekPosition;
+
+        let currentMinutes = Math.floor(currTrack.currentTime / 60);
+        let currentSeconds = Math.floor(currTrack.currentTime - currentMinutes * 60);
+        let durationMinutes = Math.floor(currTrack.duration / 60);
+        let durationSeconds = Math.floor(currTrack.duration - durationMinutes * 60);
+
+        if(currentSeconds < 10) {currentSeconds = "0" + currentSeconds; }
+        if(durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+        if(currentMinutes < 10) {currentMinutes = "0" + currentMinutes; }
+        if(durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+
+        currTime.textContent = currentMinutes + ":" + currentSeconds;
+        totalDuration.textContent = durationMinutes + ":" + durationSeconds;
+    }
+}

@@ -37,6 +37,19 @@ nav .circle{
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
 }
+.slider{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding: 0;
+}
+.current-time{
+    margin-right: 8px;
+}
+.total-duration{
+    margin-left: 8px;
+}
 .seek-slider{
     -webkit-appearance: none;
     width: 100%;
@@ -80,4 +93,17 @@ nav .circle{
     border: 6px solid #fff;
     box-shadow: 0px 5px 10px rgba(255,26,26,0.22);
     border-radius: 50%;
+}
+
+.control-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.random-track, .prev-track, .playpause-track, .next-track, .repeat-track{
+    font-size: 12px;
+    cursor: pointer;
+    
 }

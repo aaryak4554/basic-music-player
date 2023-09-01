@@ -11,6 +11,7 @@ let seekSlider = document.querySelector('.seek-slider');
 let volumeSlider = document.querySelector('.volume-slider');
 let currTime = document.querySelector('.current-time');
 let totalDuration = document.querySelector('.total-duration');
+
 let randomIcon = document.querySelector('.fa-random');
 let currTrack = document.createElement('audio');
 
@@ -23,10 +24,10 @@ let updateTimer;
 
 const songData = [
     {
-        img : 'images/stay.jpg',
-        name : 'Stay',
-        artist : 'The Kid LAROI, Justin Bieber',
-        music : 'music/stay.mp3'
+        img : 'images/faded.jpg',
+        name : 'Faded',
+        artist : 'Alan Walker',
+        music : 'music/Faded.mp3'
     },
     {
         img : 'images/fallingdown.jpg',
@@ -35,21 +36,22 @@ const songData = [
         music : 'music/fallingdown.mp3'
     },
     {
-        img : 'images/faded.jpg',
-        name : 'Faded',
-        artist : 'Alan Walker',
-        music : 'music/Faded.mp3'
-    },
-    {
         img : 'images/ratherbe.jpg',
         name : 'Rather Be',
         artist : 'Clean Bandit',
         music : 'music/Rather Be.mp3'
+    },
+    {   
+        img : 'images/stay.jpg',
+        name : 'Stay',
+        artist : 'The Kid LAROI, Justin Bieber',
+        music : 'music/stay.mp3'
     }
 ];
 
 
 loadTrack(index);
+
 
 function loadTrack(index){
     clearInterval(updateTimer);
@@ -61,46 +63,64 @@ function loadTrack(index){
     trackArt.style.backgroundImage = "url(" + songData[index].img + ")";
     trackName.textContent = songData[index].name;
     trackArtist.textContent = songData[index].artist;
-    nowPlaying.textContent = "Playing music " + (index + 1) + " of " + songData.length;
+    nowPlaying.textContent = "Playing Track " + (index + 1) + " of " + songData.length;
 
     updateTimer = setInterval(setUpdate, 1000);
 
     currTrack.addEventListener('ended', nextTrack);
 }
+
+
 function reset(){
     currTime.textContent = "00:00";
     totalDuration.textContent = "00:00";
     seekSlider.value = 0;
 }
+
+
 function randomTrack(){
     isRandom ? pauseRandom() : playRandom();
 }
+
+
 function playRandom(){
     isRandom = true;
     randomIcon.classList.add('randomActive');
 }
+
+
 function pauseRandom(){
     isRandom = false;
     randomIcon.classList.remove('randomActive');
 }
+
+
 function repeatTrack(){
     let current_index = index;
     loadTrack(current_index);
     playTrack();
 }
+
+
 function playpauseTrack(){
     isPlaying ? pauseTrack() : playTrack();
 }
+
+
 function playTrack(){
     currTrack.play();
     isPlaying = true;
     playpauseBtn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
+
+
 function pauseTrack(){
     currTrack.pause();
     isPlaying = false;
     playpauseBtn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
+
+
 function nextTrack(){
     if(index < songData.length - 1 && isRandom === false){
         index += 1;
@@ -113,6 +133,8 @@ function nextTrack(){
     loadTrack(index);
     playTrack();
 }
+
+
 function prevTrack(){
     if(index > 0){
         index -= 1;
@@ -122,13 +144,19 @@ function prevTrack(){
     loadTrack(index);
     playTrack();
 }
+
+
 function seekTo(){
     let seekto = currTrack.duration * (seekSlider.value / 100);
     currTrack.currentTime = seekto;
 }
+
+
 function setVolume(){
     currTrack.volume = volumeSlider.value / 100;
 }
+
+
 function setUpdate(){
     let seekPosition = 0;
     if(!isNaN(currTrack.duration)){

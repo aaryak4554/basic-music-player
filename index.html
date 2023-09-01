@@ -11,6 +11,10 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/d92c17fb17.js" crossorigin="anonymous"></script>
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">  
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -18,9 +22,38 @@
         <![endif]-->
         <div class="container">
             <div class="music-player">
-
+                <nav>
+                    <div class="circle">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </div>
+                    <div class="circle">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </nav>
+                <div class="slider">
+                    <div class="current-time">00:00</div>
+                    <input 
+                        class="seek-slider"
+                        type="range" 
+                        min="1" 
+                        max="100" 
+                        value="0" 
+                        onchange="seekTo()">
+                    <div class="total-duration">00:00</div>
+                </div>
+                <div class="slider">
+                    <i class="fa fa-volume-down"></i>
+                    <input 
+                        class="volume-slider"
+                        type="range" 
+                        min="1" 
+                        max="100" 
+                        value="99" 
+                        onchange="setVolume()">
+                    <i class="fa fa-volume-up"></i>
+                </div>
             </div>
         </div>
-        <script src="" async defer></script>
+        <script src="script.js" async defer></script>
     </body>
 </html>
